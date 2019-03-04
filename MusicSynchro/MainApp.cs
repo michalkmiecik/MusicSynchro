@@ -10,6 +10,7 @@ namespace MusicSynchro
     public partial class MainApp : Form
     {
         UdpClient udpClient;
+        IPEndPoint remoteEndPoint;
 
         public MainApp()
         {
@@ -25,13 +26,14 @@ namespace MusicSynchro
         {
             try
             {
-                IPAddress myIP = IPAddress.Parse(tbIPAddress.Text);
-                IPEndPoint myEndPoint = new IPEndPoint(myIP, Int32.Parse(tbPort.Text));
-                udpClient.Connect(myEndPoint);
-
-                Byte[] sendBytes = Encoding.ASCII.GetBytes("Press space");
-
+                remoteEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
+                udpClient.Connect(remoteEndPoint);
+               
+                string message = "Example message";
+                Byte[] sendBytes = Encoding.ASCII.GetBytes(message);
                 udpClient.Send(sendBytes, sendBytes.Length);
+                rtbLog.AppendText("\nSent message: \n[" + message + "]");
+
             }
             catch (Exception exc)
             {
@@ -41,11 +43,20 @@ namespace MusicSynchro
 
         private void btnStartWaiting_Click(object sender, EventArgs e)
         {
-            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            try
+            {
+                remoteEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
+                udpClient.Connect(remoteEndPoint);
 
-            Byte[] receiveBytes = udpClient.Receive(ref RemoteIpEndPoint);
+                Byte[] receiveBytes = udpClient.Receive(ref remoteEndPoint);
 
-            string returnData = Encoding.ASCII.GetString(receiveBytes);
+                string returnData = Encoding.ASCII.GetString(receiveBytes);
+                rtbLog.AppendText("\n" + returnData);
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc.ToString());
+            }
         }
 
         private void rbSender_CheckedChanged(object sender, EventArgs e)
@@ -53,8 +64,8 @@ namespace MusicSynchro
             if (rbSender.Checked)
             {
                 rtbLog.AppendText("\nSet as Sender.");
-                panel2.Enabled = true;
                 btnStartWaiting.Enabled = false;
+                btnSend.Enabled = true;
             }
         }
 
@@ -64,7 +75,7 @@ namespace MusicSynchro
             {
                 rtbLog.AppendText("\nSet as Reciever.");
                 btnStartWaiting.Enabled = true;
-                panel2.Enabled = false;
+                btnSend.Enabled = false;
             }
         }
 
