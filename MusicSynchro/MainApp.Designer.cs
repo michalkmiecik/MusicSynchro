@@ -38,6 +38,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnStartWaiting = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -71,6 +72,7 @@
             this.tbIPAddress.Name = "tbIPAddress";
             this.tbIPAddress.Size = new System.Drawing.Size(208, 22);
             this.tbIPAddress.TabIndex = 11;
+            this.tbIPAddress.Text = "192.168.1.122";
             // 
             // tbPort
             // 
@@ -79,6 +81,7 @@
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(208, 22);
             this.tbPort.TabIndex = 12;
+            this.tbPort.Text = "10101";
             // 
             // label2
             // 
@@ -101,7 +104,7 @@
             this.rbSender.TabIndex = 0;
             this.rbSender.Text = "Sender";
             this.rbSender.UseVisualStyleBackColor = true;
-            this.rbSender.CheckedChanged += new System.EventHandler(this.SenderOrReciever);
+            this.rbSender.CheckedChanged += new System.EventHandler(this.rbSender_CheckedChanged);
             // 
             // rbReciever
             // 
@@ -113,7 +116,7 @@
             this.rbReciever.TabIndex = 1;
             this.rbReciever.Text = "Reciever";
             this.rbReciever.UseVisualStyleBackColor = true;
-            this.rbReciever.CheckedChanged += new System.EventHandler(this.SenderOrReciever);
+            this.rbReciever.CheckedChanged += new System.EventHandler(this.rbReciever_CheckedChanged);
             // 
             // panel2
             // 
@@ -122,7 +125,6 @@
             this.panel2.Controls.Add(this.tbIPAddress);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.tbPort);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Enabled = false;
             this.panel2.Location = new System.Drawing.Point(10, 139);
             this.panel2.Name = "panel2";
@@ -154,11 +156,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Select your role";
             // 
+            // rtbLog
+            // 
+            this.rtbLog.BackColor = System.Drawing.SystemColors.Info;
+            this.rtbLog.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.rtbLog.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.rtbLog.Location = new System.Drawing.Point(10, 271);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.ReadOnly = true;
+            this.rtbLog.Size = new System.Drawing.Size(294, 86);
+            this.rtbLog.TabIndex = 18;
+            this.rtbLog.Text = "Start logging...";
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 275);
+            this.ClientSize = new System.Drawing.Size(317, 370);
+            this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.btnStartWaiting);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel2);
@@ -167,6 +182,7 @@
             this.Padding = new System.Windows.Forms.Padding(10);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Music Synchro Player";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainApp_FormClosed);
             this.Load += new System.EventHandler(this.MainApp_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -188,6 +204,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnStartWaiting;
+        private System.Windows.Forms.RichTextBox rtbLog;
     }
 }
 
