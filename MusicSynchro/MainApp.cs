@@ -36,8 +36,9 @@ namespace MusicSynchro
                 IPEndPoint listenEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
                 Byte[] receiveBytes = client.Receive(ref listenEndPoint);
 
-                string returnData = Encoding.ASCII.GetString(receiveBytes);
-                rtbLog.AppendText("\n" + returnData);
+                string message = Encoding.ASCII.GetString(receiveBytes);
+                rtbLog.AppendText("\nReceived message: \n[" + message + "]");
+                rtbLog.ScrollToCaret();
             }
         }
 
@@ -46,18 +47,23 @@ namespace MusicSynchro
             if (rbSender.Checked)
             {
                 rtbLog.AppendText("\nSet as Sender.");
+                rtbLog.ScrollToCaret();
                 btnStartWaiting.Enabled = false;
                 btnSend.Enabled = true;
+                panel.Enabled = true;
             }
         }
 
-        private void rbReciever_CheckedChanged(object sender, EventArgs e)
+        private void rbReceiver_CheckedChanged(object sender, EventArgs e)
         {
             if (rbReciever.Checked)
             {
-                rtbLog.AppendText("\nSet as Reciever.");
+                rtbLog.AppendText("\nSet as Receiver.");
+                rtbLog.ScrollToCaret();
                 btnStartWaiting.Enabled = true;
                 btnSend.Enabled = false;
+                panel.Enabled = false;
+
             }
         }
 
