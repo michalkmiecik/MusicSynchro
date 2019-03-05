@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MusicSynchro
@@ -20,11 +19,16 @@ namespace MusicSynchro
             using (var client = new UdpClient())
             {
                 client.Connect(remoteEndPoint);
-                string message = "Test Message";
-                Byte[] sendBytes = Encoding.ASCII.GetBytes(message);
+                Byte[] sendBytes = { 1 };
                 client.Send(sendBytes, sendBytes.Length);
-                rtbLog.AppendText("\nSent message: \n[" + message + "]");
+                AddToLog("Sent [SPACE].");
             }
+        }
+
+        private void AddToLog(string message)
+        {
+            rtbLog.AppendText("\n" + message);
+            rtbLog.ScrollToCaret();
         }
 
         private void BtnStartWaiting_Click(object sender, EventArgs e)
@@ -32,13 +36,12 @@ namespace MusicSynchro
             int listenPort = int.Parse(tbPort.Text);
             using (var client = new UdpClient(listenPort))
             {
-                //IPEndPoint listenEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
                 IPEndPoint listenEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
                 Byte[] receiveBytes = client.Receive(ref listenEndPoint);
 
-                string message = Encoding.ASCII.GetString(receiveBytes);
-                rtbLog.AppendText("\nReceived message: \n[" + message + "]");
-                rtbLog.ScrollToCaret();
+                SendKeys.Send(" "); //presses SPACE bar
+                AddToLog("Received [SPACE] press.");
+
             }
         }
 
@@ -46,8 +49,7 @@ namespace MusicSynchro
         {
             if (rbSender.Checked)
             {
-                rtbLog.AppendText("\nSet as Sender.");
-                rtbLog.ScrollToCaret();
+                AddToLog("Set as Sender.");
                 btnStartWaiting.Enabled = false;
                 btnSend.Enabled = true;
                 panel.Enabled = true;
@@ -58,8 +60,7 @@ namespace MusicSynchro
         {
             if (rbReciever.Checked)
             {
-                rtbLog.AppendText("\nSet as Receiver.");
-                rtbLog.ScrollToCaret();
+                AddToLog("Set as Receiver.");
                 btnStartWaiting.Enabled = true;
                 btnSend.Enabled = false;
                 panel.Enabled = false;
