@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MusicSynchro
@@ -13,6 +14,12 @@ namespace MusicSynchro
             InitializeComponent();
         }
 
+        private void AddToLog(string message)
+        {
+            rtbLog.AppendText("\n" + message);
+            rtbLog.ScrollToCaret();
+        }
+
         private void BtnSend_Click(object sender, EventArgs e)
         {
             IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
@@ -20,15 +27,10 @@ namespace MusicSynchro
             {
                 client.Connect(remoteEndPoint);
                 Byte[] sendBytes = { 1 };
+                Thread.Sleep(3000);
                 client.Send(sendBytes, sendBytes.Length);
                 AddToLog("Sent [SPACE].");
             }
-        }
-
-        private void AddToLog(string message)
-        {
-            rtbLog.AppendText("\n" + message);
-            rtbLog.ScrollToCaret();
         }
 
         private void BtnStartWaiting_Click(object sender, EventArgs e)
