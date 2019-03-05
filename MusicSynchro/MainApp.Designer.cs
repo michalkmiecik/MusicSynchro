@@ -51,7 +51,7 @@
             this.btnSend.TabIndex = 10;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            this.btnSend.Click += new System.EventHandler(this.BtnSend_Click);
             // 
             // rbSender
             // 
@@ -87,7 +87,7 @@
             this.btnStartWaiting.TabIndex = 14;
             this.btnStartWaiting.Text = "Start waiting";
             this.btnStartWaiting.UseVisualStyleBackColor = true;
-            this.btnStartWaiting.Click += new System.EventHandler(this.btnStartWaiting_Click);
+            this.btnStartWaiting.Click += new System.EventHandler(this.BtnStartWaiting_Click);
             // 
             // groupBox1
             // 
@@ -132,7 +132,7 @@
             this.tbIPAddress.Name = "tbIPAddress";
             this.tbIPAddress.Size = new System.Drawing.Size(214, 22);
             this.tbIPAddress.TabIndex = 20;
-            this.tbIPAddress.Text = "192.168.1.122";
+            this.tbIPAddress.Text = "192.168.1.";
             // 
             // label2
             // 
@@ -152,7 +152,7 @@
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(214, 22);
             this.tbPort.TabIndex = 21;
-            this.tbPort.Text = "10101";
+            this.tbPort.Text = "55600";
             // 
             // MainApp
             // 
@@ -172,8 +172,6 @@
             this.Padding = new System.Windows.Forms.Padding(10);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Music Synchro Player";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainApp_FormClosed);
-            this.Load += new System.EventHandler(this.MainApp_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

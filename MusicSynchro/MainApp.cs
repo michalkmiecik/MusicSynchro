@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -9,53 +8,36 @@ namespace MusicSynchro
 {
     public partial class MainApp : Form
     {
-        UdpClient udpClient;
-        IPEndPoint remoteEndPoint;
 
         public MainApp()
         {
             InitializeComponent();
         }
 
-        private void MainApp_Load(object sender, EventArgs e)
+        private void BtnSend_Click(object sender, EventArgs e)
         {
-            udpClient = new UdpClient();
-        }
-
-        private void btnSend_Click(object sender, EventArgs e)
-        {
-            try
+            IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
+            using (var client = new UdpClient())
             {
-                remoteEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
-                udpClient.Connect(remoteEndPoint);
-               
-                string message = "Example message";
+                client.Connect(remoteEndPoint);
+                string message = "Test Message";
                 Byte[] sendBytes = Encoding.ASCII.GetBytes(message);
-                udpClient.Send(sendBytes, sendBytes.Length);
+                client.Send(sendBytes, sendBytes.Length);
                 rtbLog.AppendText("\nSent message: \n[" + message + "]");
-
-            }
-            catch (Exception exc)
-            {
-                Debug.WriteLine(exc.ToString());
             }
         }
 
-        private void btnStartWaiting_Click(object sender, EventArgs e)
+        private void BtnStartWaiting_Click(object sender, EventArgs e)
         {
-            try
+            int listenPort = int.Parse(tbPort.Text);
+            using (var client = new UdpClient(listenPort))
             {
-                remoteEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
-                udpClient.Connect(remoteEndPoint);
-
-                Byte[] receiveBytes = udpClient.Receive(ref remoteEndPoint);
+                //IPEndPoint listenEndPoint = new IPEndPoint(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text));
+                IPEndPoint listenEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
+                Byte[] receiveBytes = client.Receive(ref listenEndPoint);
 
                 string returnData = Encoding.ASCII.GetString(receiveBytes);
                 rtbLog.AppendText("\n" + returnData);
-            }
-            catch (Exception exc)
-            {
-                Debug.WriteLine(exc.ToString());
             }
         }
 
@@ -79,9 +61,5 @@ namespace MusicSynchro
             }
         }
 
-        private void MainApp_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            udpClient.Close();
-        }
     }
 }
