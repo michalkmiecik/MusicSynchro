@@ -52,7 +52,8 @@ namespace MusicSynchro
                 AddToLog("Set as Sender.");
                 btnStartWaiting.Enabled = false;
                 btnSend.Enabled = true;
-                panel.Enabled = true;
+                lblIPAddress.Enabled = tbIPAddress.Enabled = true;
+                lblPort.Enabled = tbPort.Enabled = true;
             }
         }
 
@@ -63,8 +64,8 @@ namespace MusicSynchro
                 AddToLog("Set as Receiver.");
                 btnStartWaiting.Enabled = true;
                 btnSend.Enabled = false;
-                panel.Enabled = false;
-
+                lblIPAddress.Enabled = tbIPAddress.Enabled = false;
+                lblPort.Enabled = tbPort.Enabled = true;
             }
         }
 
